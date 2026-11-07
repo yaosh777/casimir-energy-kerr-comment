@@ -1,0 +1,299 @@
+% PRD manuscript prepared with the official APS REVTeX 4.2 class.
+% Compile with: pdflatex PRD_Comment; bibtex PRD_Comment;
+%               pdflatex PRD_Comment; pdflatex PRD_Comment.
+% Standard textcase package (LPPL), used only if it is not installed.
+\begin{filecontents*}[noheader]{textcase.sty}
+%%
+%% This is file `textcase.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% textcase.dtx  (with options: `package')
+%% 
+%% Source File: textcase.dtx
+%% Copyright 1997 1998 2019 2022 2023 2025 David Carlisle
+%%
+%% This file may be distributed under the terms of the LPPL.
+%% See 00readme.txt for details.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{textcase}
+       [2025/02/16 v1.05 Text only upper/lower case changing (DPC)]
+\ifx\AddToNoCaseChangeList\@undefined\else
+  \DeclareOption{overload}{}
+  \ProcessOptions
+  \PackageInfo{textcase}{Defining Legacy names}
+\ExplSyntaxOn
+\cs_set_protected:Npn \reserved@a #1
+ {
+  \cs_generate_variant:cn { text_ \str_lowercase:n {#1} case:nn } { V }
+  \ExpandArgs { cnx } \NewExpandableDocumentCommand
+    { MakeText#1case }
+    { O{} +m }
+    { \exp_not:c { MakeText#1case \c_space_tl \c_space_tl \c_space_tl }
+                           [####1] {####2} }
+  }
+\reserved@a { Upper }
+\reserved@a { Lower }
+\IfFormatAtLeastTF{2024-11-12}{\def\textcase@case{case}}{\def\textcase@case{}}
+\cs_new_protected:cpn {
+   MakeTextLowercase \c_space_tl \c_space_tl \c_space_tl } [#1] #2
+  {%{
+    \let \OE \oe
+    \@@text@case@aux { lower \textcase@case } {#1} {#2}
+  }%}
+\cs_new_protected:cpn {
+   MakeTextUppercase \c_space_tl \c_space_tl \c_space_tl } [#1] #2
+  {%{
+    \let \oe \OE
+    \@@text@case@aux { upper \textcase@case } {#1} {#2}
+  }%}
+\ExplSyntaxOff
+  \expandafter\endinput
+\fi
+\def\@uclcnotmath#1#2#3#4{\begingroup
+      #1%
+      \def\({$}\let\)\(%
+      \let\UTF@two@octets@noexpand\@empty
+      \let\UTF@three@octets@noexpand\@empty
+      \let\UTF@four@octets@noexpand\@empty
+      \def\NoCaseChange##1{\noexpand\NoCaseChange{\noexpand##1}}%
+      \@nonchangecase\label
+      \@nonchangecase\ref
+      \@nonchangecase\ensuremath
+      \def\cite##1##{\toks@{\noexpand\cite##1}\@citex}%
+      \def\@citex##1{\NoCaseChange{\the\toks@{##1}}}%
+      \def\reserved@a##1##2{\let#2\reserved@a}%
+      \expandafter\reserved@a\@uclclist\reserved@b{\reserved@b\@gobble}%
+      \protected@edef\reserved@a{\endgroup
+          \noexpand\@skipmath#3#4$\valign$}%
+      \reserved@a}
+\def\@nonchangecase#1{\def#1##1{\NoCaseChange{#1{##1}}}}
+\let\NoCaseChange\@firstofone
+\def\@skipmath#1#2$#3${%
+  \@skip@nonchangecase#1#2\NoCaseChange\valign
+  \ifx\valign#3%
+  \else
+    $#3$%
+    \expandafter\@skipmath\expandafter#1%
+  \fi}
+\def\@skip@nonchangecase#1#2\NoCaseChange#3{%
+  #1{#2}%
+  \ifx\valign#3%
+  \else
+    #3%
+    \expandafter\@skip@nonchangecase\expandafter#1%
+  \fi}
+\DeclareRobustCommand\MakeTextUppercase{%
+  \@uclcnotmath{\def\i{I}\def\j{J}}{##1##2}\uppercase}
+\protected@edef\MakeTextUppercase#1{\MakeTextUppercase{#1}}
+\DeclareRobustCommand\MakeTextLowercase{%
+  \@uclcnotmath{}{##2##1}\lowercase}
+\protected@edef\MakeTextLowercase#1{\MakeTextLowercase{#1}}
+\DeclareOption{overload}{%
+  \expandafter\let\csname MakeUppercase \expandafter\endcsname
+                  \csname MakeTextUppercase \endcsname
+  \expandafter\let\csname MakeLowercase \expandafter\endcsname
+                  \csname MakeTextLowercase \endcsname}
+\ProcessOptions
+\endinput
+%%
+%% End of file `textcase.sty'.
+\end{filecontents*}
+
+\documentclass[aps,prd,reprint,amsmath,amssymb,longbibliography,nofootinbib]{revtex4-2}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\hypersetup{hidelinks,pdftitle={Comment on Casimir energy in Kerr space-time},pdfauthor={Shaohui Yao}}
+\raggedbottom
+
+\begin{document}
+
+\title{Comment on ``Casimir energy in Kerr space-time''}
+\author{Shaohui Yao}
+\email{yaosh77@qq.com}
+\affiliation{College of Physics, Nanjing University of Aeronautics and Astronautics, Nanjing, China}
+\date{November 6, 2026}
+
+\begin{abstract}
+In F.~Sorge [Phys.\ Rev.\ D \textbf{90}, 084050 (2014)], the author derived the mean vacuum energy density of a massless scalar field in a Casimir cavity moving along a circular equatorial orbit around a Kerr black hole. We show that, within the constant-metric approximation adopted in that work, the additional correction factor in the result arises entirely from using an induced metric and a unit normal associated with different Cauchy surfaces in the Klein-Gordon inner product. Correcting this inconsistency yields the energy density of a stationary cavity in Minkowski spacetime. We calculate the induced metric and the unit normal for each of the two Cauchy surfaces associated with the quantities used in the original paper, and show that both choices yield the same energy density.
+\end{abstract}
+
+\maketitle
+
+\section{Normalization in the Klein-Gordon Inner Product}
+\label{sec:normalization}
+
+In Ref.~\cite{Sorge2014}, the author considered two parallel plates moving along a circular equatorial orbit around a Kerr black hole, hereafter also referred to as a Casimir cavity, and calculated the mean vacuum energy density of a massless scalar field inside the cavity. The calculation uses the constant-metric approximation, under which the Klein-Gordon equation becomes 
+\begin{equation}
+\label{eq:kg}
+\hat{g}^{\mu\nu}\partial_{\mu}\partial_{\nu}\Psi=0.
+\end{equation}
+ To determine the integration constant in the solution of Eq.~\eqref{eq:kg}, the Klein-Gordon inner product 
+\begin{equation}
+\label{eq:inner-product}
+\langle u_{n},u_{m}\rangle=i\int_{S}\left[\left(\partial_{\mu}u_{n}\right)u^{*}_{m}-u_{n}\left(\partial_{\mu}u^{*}_{m}\right)\right]\sqrt{-\hat{g}_{S}}n^{\mu}dS
+\end{equation}
+ is used together with the normalization condition 
+\begin{equation}
+\label{eq:normalization}
+\langle u_{n},u_{m}\rangle=\delta^{(2)}\left(\vec{k}_{\bot,n}-\vec{k}_{\bot,m}\right)\delta_{mn}.
+\end{equation}
+
+
+All quantities entering this calculation must refer to the same Cauchy surface. However, the determinant of the induced metric and the unit normal used in the original paper are, respectively, 
+\begin{equation}
+\label{eq:mixed-data}
+\hat{g}_{\tilde{S}}=\frac{\hat{g}}{\hat{g}_{tt}},\ n^{\mu}_{S}=r\sqrt{\frac{\Delta}{A}}\left(\frac{A}{\Delta r^{2}},\frac{A}{\Delta r}\left(\omega_{d}-\Omega\right),0,0\right).
+\end{equation}
+ (The original paper actually uses $-\hat{g}/\hat{g}_{tt}$ for the determinant of the induced metric, which gives the same volume factor $\sqrt{-\hat{g}/\hat{g}_{tt}}$ as used here.) These quantities correspond to two different Cauchy surfaces, respectively: 
+\begin{equation}
+\label{eq:surfaces}
+d\tilde{t}=dt+\frac{\hat{g}_{tx}}{\hat{g}_{tt}}dx=0,\ dt=0.
+\end{equation}
+
+Specifically, $\hat{g}_{\tilde{S}}$ is associated with the Cauchy surface obtained from the transformed line element 
+\begin{equation}
+\label{eq:metric}
+\begin{aligned}
+ds^{2} &=\hat{g}_{tt}dt^{2}+2\hat{g}_{tx}dtdx+\hat{g}_{xx}dx^{2}+\hat{g}_{yy}dy^{2}+\hat{g}_{zz}dz^{2}\\
+&=\hat{g}_{tt}\left(dt+\frac{\hat{g}_{tx}}{\hat{g}_{tt}}dx\right)^{2}+\left(\hat{g}_{xx}-\frac{\hat{g}^{2}_{tx}}{\hat{g}_{tt}}\right)dx^{2}\\
+&\quad +\hat{g}_{yy}dy^{2}+\hat{g}_{zz}dz^{2}
+\end{aligned}
+\end{equation}
+ by setting $d\tilde{t}=dt+\frac{\hat{g}_{tx}}{\hat{g}_{tt}}dx=0$, namely $\tilde{S}$ ($\tilde{t}=\text{constant}$). This Cauchy surface is orthogonal to the four-velocity of a local observer comoving with the cavity. The induced metric matrix on $\tilde{S}$ is 
+\begin{equation}
+\label{eq:induced-metric}
+\hat{g}_{\tilde{S},ij}=\begin{pmatrix}\hat{g}_{xx}-\frac{\hat{g}^{2}_{tx}}{\hat{g}_{tt}} & 0 & 0\\
+0 & \hat{g}_{yy} & 0\\
+0 & 0 & \hat{g}_{zz}
+\end{pmatrix},
+\end{equation}
+ and its determinant is 
+\begin{equation}
+\label{eq:induced-determinant}
+\hat{g}_{\tilde{S}}=\left(\hat{g}_{xx}-\frac{\hat{g}^{2}_{tx}}{\hat{g}_{tt}}\right)\times\hat{g}_{yy}\times\hat{g}_{zz}=\frac{\hat{g}}{\hat{g}_{tt}},
+\end{equation}
+ where we have used 
+\begin{equation}
+\label{eq:metric-determinant}
+\hat{g}=\det\left(\hat{g}_{\mu\nu}\right)=\left(\hat{g}_{tt}\hat{g}_{xx}-\hat{g}^{2}_{tx}\right)\times\hat{g}_{yy}\times\hat{g}_{zz}.
+\end{equation}
+
+
+The unit normal $n^{\mu}_{S}$, on the other hand, corresponds to the Cauchy surface obtained by setting $dt=0$, namely $S$ ($t=\text{constant}$). Direct calculation gives the induced metric determinant and the unit normal for $\tilde{S}$ and $S$, respectively, as 
+\begin{equation}
+\label{eq:tilde-s-data}
+\begin{aligned}
+\hat{g}_{\tilde{S}} & =\frac{\hat{g}}{\hat{g}_{tt}},\\
+n^{\mu}_{\tilde{S}} & =C\left(\Omega\right)\left(1,0,0,0\right),
+\end{aligned}
+\end{equation}
+ and 
+\begin{equation}
+\label{eq:s-data}
+\begin{aligned}
+\hat{g}_{S} & =\hat{g}_{xx}\cdot\hat{g}_{yy}\cdot\hat{g}_{zz},\\
+n^{\mu}_{S} & =r\sqrt{\frac{\Delta}{A}}\left(\frac{A}{\Delta r^{2}},\frac{A}{\Delta r}\left(\omega_{d}-\Omega\right),0,0\right).
+\end{aligned}
+\end{equation}
+
+Detailed derivations of these results, as well as those below, are provided in Ref.~\cite{Yao2026}.
+
+For each of the two Cauchy surfaces, substituting the quantum field mode solution 
+\begin{equation}
+\label{eq:mode}
+u_{n}=\tilde{N}_{n}e^{-i\omega_{n}t}e^{i\vec{k}_{\bot}\cdot\vec{x}_{\bot}}e^{-i\beta_{n}x}\sin\left(\frac{n\pi}{L}x\right)
+\end{equation}
+ into Eq.~\eqref{eq:normalization} and evaluating the square of the integration constant, corresponding to Eq.~(37) of the original paper, gives the same result: 
+\begin{equation}
+\label{eq:correct-normalization}
+\tilde{N}^{2}_{n}=\frac{1}{\left(2\pi\right)^{2}L\omega_{n}C^{2}\left(\Omega\right)}.
+\end{equation}
+
+
+By contrast, the expression in Ref.~\cite{Sorge2014} is 
+\begin{equation}
+\label{eq:original-normalization}
+\begin{aligned}
+N^{2}_{n} & =\frac{1}{\left(2\pi\right)^{2}L\omega_{n}}\frac{1}{r}\sqrt{\frac{A}{\Delta}}C^{-3}\left(\Omega\right)\\
+ & =\frac{1}{\left(2\pi\right)^{2}L\omega_{n}C^{2}\left(\Omega\right)}\left[1-\frac{A^{2}}{\Delta r^{4}}\left(\Omega-\omega_{d}\right)^{2}\right]^{1/2}\\
+ & =\tilde{N}^{2}_{n}R,
+\end{aligned}
+\end{equation}
+ where 
+\begin{equation}
+\label{eq:correction}
+R=\left[1-\frac{A^{2}}{\Delta r^{4}}\left(\Omega-\omega_{d}\right)^{2}\right]^{1/2}
+\end{equation}
+ is precisely the correction factor discussed in that paper, corresponding to its Eq.~(54). This is the source of the correction factor in Ref.~\cite{Sorge2014}.
+
+Substituting the correct squared coefficient $\tilde{N}^{2}_{n}$ yields the mean vacuum energy density 
+\begin{equation}
+\label{eq:energy}
+\langle\epsilon_{\text{vac}}\rangle=-\frac{\pi^{2}}{1440L^{4}_{p}},
+\end{equation}
+ where 
+\begin{equation}
+\label{eq:proper-length}
+L_{p}=L\frac{\sqrt{\Delta}}{r}C\left(\Omega\right)
+\end{equation}
+ is the proper length. This is precisely the expression for the Casimir energy density in flat spacetime.
+
+\section{Further Perspectives: Geometry and Boundary Conditions in the Constant-Metric Approximation}
+\label{sec:geometry}
+
+Once the metric is approximated as constant, the spacetime is in fact Minkowski spacetime, and a linear coordinate transformation with constant coefficients brings the line element into the standard Minkowski form. Using Eq.~\eqref{eq:metric}, set 
+\begin{equation}
+\label{eq:coordinates}
+\begin{aligned}
+dT &=\sqrt{\hat{g}_{tt}}\left(dt+\frac{\hat{g}_{tx}}{\hat{g}_{tt}}dx\right),\\
+dX &=\sqrt{-\left(\hat{g}_{xx}-\frac{\hat{g}^{2}_{tx}}{\hat{g}_{tt}}\right)}dx,\\
+dY &=\sqrt{-\hat{g}_{yy}}dy,\qquad dZ=\sqrt{-\hat{g}_{zz}}dz,
+\end{aligned}
+\end{equation}
+ where all radicands are greater than $0$. We then obtain 
+\begin{equation}
+\label{eq:minkowski}
+ds^{2}=dT^{2}-dX^{2}-dY^{2}-dZ^{2}.
+\end{equation}
+
+
+In this coordinate system, the Dirichlet boundary conditions become 
+\begin{equation}
+\label{eq:boundary}
+\begin{aligned}
+\Psi\left(T,X=0,Y,Z\right)&=0,\\
+\Psi\left(T,X=\frac{\sqrt{\Delta}}{r}C\left(\Omega\right)L,Y,Z\right)&=0,
+\end{aligned}
+\end{equation}
+ since, when $x=L$, we have 
+\begin{equation}
+\label{eq:transformed-plate}
+\begin{aligned}
+X & =\sqrt{-\left(\hat{g}_{xx}-\frac{\hat{g}^{2}_{tx}}{\hat{g}_{tt}}\right)}\cdot L\\
+ & =\frac{\sqrt{\Delta}}{r}C\left(\Omega\right)L.
+\end{aligned}
+\end{equation}
+ This also explains why, after transforming the line element into the standard Minkowski form, the positions of the two parallel plates can no longer both be written in the original form as $X=0$ and $X=L$.
+
+From the viewpoint of spacetime curvature, approximating the metric components as constants gives 
+\begin{equation}
+\label{eq:constant-metric}
+\partial_{\lambda}\hat{g}_{\mu\nu}=0.
+\end{equation}
+ Consequently, all connection coefficients $\hat{\Gamma}^{\sigma}_{\!\mu\nu}$ and all components of the Riemann curvature tensor $\hat{R}^{\rho}_{\!\sigma\mu\nu}$ are $0$. This is precisely what it means for spacetime to be flat, and its physical properties are naturally those of flat spacetime. Unless otherwise necessary, the corresponding physical problem can therefore be studied entirely in flat spacetime.
+
+For parallel plates in flat spacetime undergoing circular motion about an external center, the Casimir energy need not be the same as when the plates are at rest in an inertial frame, because their motion is noninertial. In the present analysis and in the original paper under discussion, however, this motion is effectively approximated as inertial.
+
+This can be understood in two ways. First, in a coordinate system at rest relative to the plates in circular motion, the metric depends on position. Second, in standard inertial Minkowski coordinates, the boundary conditions depend on time.
+
+In the present analysis, adopting the constant-metric approximation allows a transformation to the standard Minkowski form of the metric, while time-independent boundary conditions similar to those for plates at rest in an inertial frame are still imposed. This clearly describes the physical situation of stationary parallel plates, rather than that of parallel plates in circular motion.
+
+% Include the bibliography style control entry.
+\nocite{*}
+\bibliographystyle{apsrev4-2}
+\bibliography{PRD_Comment}
+
+\end{document}
